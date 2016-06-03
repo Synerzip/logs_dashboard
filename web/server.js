@@ -4,6 +4,16 @@ http = require('http');
 path = require("path");
 dist = path.join(__dirname, './dist');
 app = express();
+
+// Authenticate user based on username & password
+app.post('/login/',function(req,res){
+  if (req.body.username == process.env.AUTH_USERNAME && req.body.password == process.env.AUTH_PASSWORD) {
+    res.status(200).json({success: true});
+  } else {
+    res.status(401).json({success: false});
+  }
+});
+
 // Basic Authentication added on top of express server
 app.use(function(req, res, next){
   var auth;

@@ -5,7 +5,7 @@
 export const urlobj = {
   getItems: '/getLogEvents/',
   getLiveLogs:'/getLogEvents/',
-  login:'/auth/getToken',
+  login:'/login/',
   getGroups:'/getGroups/',
   getStreams:'/getStreams/',
   getFilterLogEvents:'/getFilterLogEvents/'

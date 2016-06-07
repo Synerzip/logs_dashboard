@@ -4,7 +4,7 @@ http = require('http');
 path = require("path");
 dist = path.join(__dirname, './dist');
 app = express();
-
+require('dotenv').config();
 // Authenticate user based on username & password
 app.post('/login/',function(req,res){
   if (req.body.username == process.env.AUTH_USERNAME && req.body.password == process.env.AUTH_PASSWORD) {

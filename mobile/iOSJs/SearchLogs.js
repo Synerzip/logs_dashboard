@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux'
 import * as itemActionCreators from 'common/webServices/itemService';
 import {logEventsConfig, filterLogParams} from 'common/AWSConfig/config.js';
 import {urlobj} from 'common/apiurls';
+import {serverUrl} from 'common/constants/loginConstants.js'
 
 var DismissKeyboard = require('dismissKeyboard');
 var deepcopy = require("deepcopy");
@@ -222,7 +223,10 @@ constructor(props) {
  componentWillMount (){
    this.props.events.addListener('rightButtonPressed', this.onAdvancePress.bind(this));
 
-    this.props.itemactions.getItems(urlobj.getItems,undefined, logEventsConfig,this.successcb);
+   let userName = this.props.userName;
+   let password = this.props.password;
+   let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getItems
+    this.props.itemactions.getItems(url,undefined, logEventsConfig,this.successcb);
     this.setState({ loading: true });
     // var _getLogEvents = {}
     //  this.props.itemactions.getLiveLogs(urlobj.getLiveLogs,_getLogEvents,this.successcb);
@@ -368,7 +372,10 @@ constructor(props) {
 
           switch (this.state.selectedIndex) {
             case 0:
-              this.props.itemactions.getFilteredLogs(urlobj.getFilterLogEvents,undefined, filterLogParams,this.successcb);
+            let userName = this.props.userName;
+            let password = this.props.password;
+            let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getFilterLogEvents
+              this.props.itemactions.getFilteredLogs(url,undefined, filterLogParams,this.successcb);
               break;
             case 2:
             case 3:
@@ -410,7 +417,11 @@ constructor(props) {
         isPagingNext: true,
         // dataSource: this.state.dataSource.cloneWithRows([])
       });
-      this.props.itemactions.getItems(urlobj.getItems,'Next', this.state.localLogEventsConfig, this.successcb);
+
+      let userName = this.props.userName;
+      let password = this.props.password;
+      let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getItems
+      this.props.itemactions.getItems(url,'Next', this.state.localLogEventsConfig, this.successcb);
      }
 
      onPrevPressed() {
@@ -421,7 +432,11 @@ constructor(props) {
          isPagingNext: true,
          //dataSource: this.state.dataSource.cloneWithRows(['1'])
        });
-       this.props.itemactions.getItems(urlobj.getItems,'Prev', this.state.localLogEventsConfig, this.successcb);
+
+       let userName = this.props.userName;
+       let password = this.props.password;
+       let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getItems
+       this.props.itemactions.getItems(url,'Prev', this.state.localLogEventsConfig, this.successcb);
      }
 
      showLiveLogs(value) {
@@ -445,7 +460,10 @@ constructor(props) {
        console.log('dataSource::-');
        console.log(this.state.dataSource);
        var _getLogEvents = {}
-        this.props.itemactions.getLiveLogs(urlobj.getLiveLogs,_getLogEvents,this.successcb);
+       let userName = this.props.userName;
+       let password = this.props.password;
+       let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getLiveLogs
+        this.props.itemactions.getLiveLogs(url, _getLogEvents,this.successcb);
         this.setState({
            isLiveLogs: true,
            loading: true,
@@ -729,7 +747,12 @@ doneDatePicker()  {
 
   console.log('Search query advance filer:-');
   console.log(filterLogParamsCopy);
-  this.props.itemactions.getFilteredLogs(urlobj.getFilterLogEvents,undefined, filterLogParamsCopy,this.successcb);
+
+  let userName = this.props.userName;
+  let password = this.props.password;
+  let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getFilterLogEvents
+
+  this.props.itemactions.getFilteredLogs(url,undefined, filterLogParamsCopy,this.successcb);
   this.setState({
     isSearchingWithDateFilter:true,
     loading: true
@@ -855,7 +878,7 @@ render() {
      </View>
    );
  }
- 
+
 }
 
 const mapStateToProps = (state) => ({

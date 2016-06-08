@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux'
 import * as groupWebActionCreators from 'common/webServices/dropdownList';
 import * as groupActionCreators from 'common/actions/dropdown';
 import {urlobj} from 'common/apiurls';
+import {serverUrl} from 'common/constants/loginConstants.js'
 
 var Subscribable = require('Subscribable');
 var EventEmitter = require('EventEmitter');
@@ -75,7 +76,11 @@ constructor(props) {
   componentWillMount (){
     // this.props.streamwebactions.getGroups(urlobj.getGroups);
     this.eventEmitter = new EventEmitter();
-    this.props.streamwebactions.getStreams(urlobj.getStreams);
+
+    let userName = this.props.userName;
+    let password = this.props.password;
+    let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getStreams
+    this.props.streamwebactions.getStreams(url);
 
       console.log('this.props: ');
       console.log(this.props);
@@ -96,14 +101,19 @@ constructor(props) {
 
   rowPressed(guid) {
     console.log('row pressed' + {guid});
+    let userName = this.props.userName;
+    let password = this.props.password;
+
     this.props.navigator.push ({
       title: 'Logs',
       component: SearchLogs,
       rightButtonTitle: 'Advanced',
-                    onRightButtonPress: this.onRightButtonPress,
-                    passProps: {
-                        events: rightButtonHandler
-                    }
+      onRightButtonPress: this.onRightButtonPress,
+        passProps: {
+          userName: userName,
+          password: password,
+          events: rightButtonHandler
+        }
     });
   }
 

@@ -8,6 +8,6 @@ export const loginConstObj= createConstants(
     'LOGIN_FAILURE',
     'LOGIN_SUCCESS',
     'LOGOUT'
-)
+);
 
-
+export const serverUrl='localhost:3001';

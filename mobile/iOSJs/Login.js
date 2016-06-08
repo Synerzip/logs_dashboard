@@ -24,6 +24,9 @@ import * as actionCreators from 'common/actions';
 import * as loginactionCreators from 'common/webServices';
 import synerzipLogo from '../resources/synerzipLogo.png';
 import Groups from './Groups'
+import {serverUrl} from 'common/constants/loginConstants.js'
+const {SERVER_URL}=serverUrl;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -71,10 +74,15 @@ class Login extends Component {
   constructor(props) {
       super(props);
       console.log('in constructor');
+      this.state = {
+        userName: 'synerzip1',
+        password: 'password1'
+      };
      }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.isAuthenticating === true) {
+
+  if(nextProps.isAuthenticating === true) {
       //  console.log("isAuthenticating...");
     } else if(nextProps.isAuthenticated === true) {
       console.log("message " + nextProps.message);
@@ -82,9 +90,15 @@ class Login extends Component {
       console.log('isAuthenticating ' + nextProps.isAuthenticating);
       if (pused == false) {
         pused = true
+        let userName = this.state.userName
+        let password = this.state.password
         this.props.navigator.push ({
           title: 'Groups',
-          component: Groups
+          component: Groups,
+          passProps: {
+            userName: userName,
+            password: password
+          }
         });
       }
     }
@@ -106,11 +120,23 @@ class Login extends Component {
   successCB(resJson){
     console.log(" in successCB");
     console.log(resJson);
+
+// this is future enhancement....need to take care by login method
+// Update login username and password on sucess
+// if not error
+    this.setState({
+      userName: userNameFromResoponse,
+      password: passwordFromResoponse
+    });
   }
+
   onLogin() {
     console.log('in onLogin');
       pused = false
-      this.props.loginactions.login('username','password', this.successCB);
+      let userName = 'synerzip1';
+      let password = 'password1';
+      let url = "http://" + userName +':' + password + SERVER_URL;
+      this.props.loginactions.login('synerzip1','password1', this.successCB);
   }
 
   render() {

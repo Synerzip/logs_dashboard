@@ -1,10 +1,16 @@
-var app, dist, express, http, path, server;
+var app, dist, express, http, path, server, bodyParser;
 express = require("express");
 http = require('http');
 path = require("path");
+bodyParser = require('body-parser');
+require('dotenv').config();
+
 dist = path.join(__dirname, './dist');
 app = express();
-require('dotenv').config();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // Authenticate user based on username & password
 app.post('/login/',function(req,res){
   if (req.body.username == process.env.AUTH_USERNAME && req.body.password == process.env.AUTH_PASSWORD) {

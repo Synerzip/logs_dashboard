@@ -7,21 +7,21 @@ import {loginRequest,loginFail,loginSuccess,logout} from '../actions';
 
 export function login(username,password,successCB){
     return function (dispatch) {
+      var formData="username="+username+"&"+"password="+password;
+
         let config={
             method: 'POST',
-            body: JSON.stringify({
-                username: username,
-                password: password
-            }),
-            headers: {  'Content-Type': 'application/json', 'Accept': 'application/json' }
+            body: formData,
+            headers: {  'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
+
         };
         dispatch(loginRequest());
-        return fetch('http://localhost:3001/auth/getToken',config)
+        return fetch('http://localhost:3001/login',config)
                 .then(res=>
             res.json()
         )
         .then(resJson=> {
-            if(!resJson["access_token"])
+            if(!resJson["success"])
         {
             dispatch(loginFail(resJson.message))
         }

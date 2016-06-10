@@ -25,6 +25,7 @@ import * as loginactionCreators from 'common/webServices';
 import synerzipLogo from '../resources/synerzipLogo.png';
 import Groups from './Groups'
 import {serverUrl} from 'common/constants/loginConstants.js'
+import {urlobj} from 'common/apiurls';
 const {SERVER_URL}=serverUrl;
 
 
@@ -135,7 +136,9 @@ class Login extends Component {
       pused = false
       let userName = 'synerzip1';
       let password = 'password1';
-      let url = "http://" + userName +':' + password + SERVER_URL;
+      let url = "http://" + userName +':' + password + "@" + serverUrl + urlobj.login;
+      console.log("url = ");
+      console.log(url);
       this.props.loginactions.login('synerzip1','password1', this.successCB);
   }
 

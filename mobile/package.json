@@ -19,6 +19,7 @@
     "redux-logger": "^2.5.0",
     "redux-thunk": "^1.0.3",
     "rxjs": "^5.0.0-beta.2",
-    "subscribable": "^0.0.4"
+    "subscribable": "^0.0.4",
+    "base-64" : "^0.1.0"
   }
 }

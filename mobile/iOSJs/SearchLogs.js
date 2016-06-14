@@ -225,8 +225,9 @@ constructor(props) {
 
    let userName = this.props.userName;
    let password = this.props.password;
-   let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getItems
-    this.props.itemactions.getItems(url,undefined, logEventsConfig,this.successcb);
+   let url = "http://" + serverUrl + urlobj.getItems
+   this.props.itemactions.getItems(url, userName, password, undefined, logEventsConfig,this.successcb);
+
     this.setState({ loading: true });
     // var _getLogEvents = {}
     //  this.props.itemactions.getLiveLogs(urlobj.getLiveLogs,_getLogEvents,this.successcb);
@@ -374,8 +375,8 @@ constructor(props) {
             case 0:
             let userName = this.props.userName;
             let password = this.props.password;
-            let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getFilterLogEvents
-              this.props.itemactions.getFilteredLogs(url,undefined, filterLogParams,this.successcb);
+            let url = "http://" + serverUrl + urlobj.getFilterLogEvents
+            this.props.itemactions.getFilteredLogs(url, userName, password, undefined, filterLogParams, this.successcb);
               break;
             case 2:
             case 3:
@@ -420,8 +421,8 @@ constructor(props) {
 
       let userName = this.props.userName;
       let password = this.props.password;
-      let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getItems
-      this.props.itemactions.getItems(url,'Next', this.state.localLogEventsConfig, this.successcb);
+      let url = "http://" + serverUrl + urlobj.getItems
+      this.props.itemactions.getItems(url, userName ,password, 'Next', this.state.localLogEventsConfig, this.successcb);
      }
 
      onPrevPressed() {
@@ -435,8 +436,8 @@ constructor(props) {
 
        let userName = this.props.userName;
        let password = this.props.password;
-       let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getItems
-       this.props.itemactions.getItems(url,'Prev', this.state.localLogEventsConfig, this.successcb);
+       let url = "http://" + serverUrl + urlobj.getItems
+       this.props.itemactions.getItems(url, userName ,password, 'Prev', this.state.localLogEventsConfig, this.successcb);
      }
 
      showLiveLogs(value) {
@@ -462,8 +463,8 @@ constructor(props) {
        var _getLogEvents = {}
        let userName = this.props.userName;
        let password = this.props.password;
-       let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getLiveLogs
-        this.props.itemactions.getLiveLogs(url, _getLogEvents,this.successcb);
+       let url = "http://" + serverUrl + urlobj.getLiveLogs
+        this.props.itemactions.getLiveLogs(url, userName, password, _getLogEvents, this.successcb);
         this.setState({
            isLiveLogs: true,
            loading: true,
@@ -750,9 +751,9 @@ doneDatePicker()  {
 
   let userName = this.props.userName;
   let password = this.props.password;
-  let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getFilterLogEvents
+  let url = "http://" + serverUrl + urlobj.getFilterLogEvents
 
-  this.props.itemactions.getFilteredLogs(url,undefined, filterLogParamsCopy,this.successcb);
+  this.props.itemactions.getFilteredLogs(url, userName, password, undefined, filterLogParamsCopy,this.successcb);
   this.setState({
     isSearchingWithDateFilter:true,
     loading: true

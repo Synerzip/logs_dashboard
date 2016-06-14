@@ -79,6 +79,7 @@ class Login extends Component {
         userName: 'synerzip1',
         password: 'password1'
       };
+      isAuthenticated: false
      }
 
   componentWillReceiveProps(nextProps) {
@@ -89,6 +90,7 @@ class Login extends Component {
       console.log("message " + nextProps.message);
       console.log('isAuthenticated ' + nextProps.isAuthenticated);
       console.log('isAuthenticating ' + nextProps.isAuthenticating);
+      this.setState({isAuthenticated: true})
       if (pused == false) {
         pused = true
         let userName = this.state.userName
@@ -103,7 +105,7 @@ class Login extends Component {
         });
       }
     }
-    else if(nextProps.isAuthenticated === false ) {
+    else if(this.state.isAuthenticated === false ) {
       console.log("nextProps fails");
       // Show alert for failuer
       return (
@@ -139,7 +141,8 @@ class Login extends Component {
       let url = "http://" + userName +':' + password + "@" + serverUrl + urlobj.login;
       console.log("url = ");
       console.log(url);
-      this.props.loginactions.login('synerzip1','password1', this.successCB);
+      this.setState({isAuthenticated: false});
+      this.props.loginactions.login(this.state.userName, this.state.password, this.successCB);
   }
 
   render() {
@@ -151,10 +154,10 @@ class Login extends Component {
       />
       <TextInput style={styles.textEditInputs}
         placeholder='User name'
-        value = 'a'/>
+        onChangeText={(userName) => this.setState({userName})} />
         <TextInput style={styles.textEditInputs}
           placeholder='Password'
-          value = 'a'/>
+          onChangeText={(password) => this.setState({password})} />
         <TouchableHighlight style={styles.button}
         underlayColor='#F5FCFF'
         onPress={this.onLogin.bind(this)}>

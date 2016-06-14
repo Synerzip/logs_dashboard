@@ -77,10 +77,9 @@ constructor(props) {
 
     let userName = this.props.userName;
     let password = this.props.password;
-    let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getGroups
-      this.props.groupwebactions.getGroups(url);
-      console.log('this.props: ');
-      console.log(this.props);
+    let url = "http://"+ serverUrl + urlobj.getGroups;
+    this.props.groupwebactions.getGroups(url, userName, password);
+    console.log(this.props);
   }
 
 componentWillReceiveProps(nextProps) {

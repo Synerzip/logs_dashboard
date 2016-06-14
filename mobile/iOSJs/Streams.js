@@ -79,11 +79,10 @@ constructor(props) {
 
     let userName = this.props.userName;
     let password = this.props.password;
-    let url = "http://" + userName +':' + password + '@' + serverUrl + urlobj.getStreams
-    this.props.streamwebactions.getStreams(url);
-
-      console.log('this.props: ');
-      console.log(this.props);
+    let url = "http://"+ serverUrl + urlobj.getStreams;
+    this.props.streamwebactions.getStreams(url, userName, password);
+    console.log('streamwebactions this.props: ');
+    console.log(this.props);
   }
 
   componentWillReceiveProps(nextProps) {

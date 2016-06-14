@@ -29,6 +29,7 @@ import { bindActionCreators } from 'redux'
 import * as groupWebActionCreators from 'common/webServices/dropdownList';
 import * as groupActionCreators from 'common/actions/dropdown';
 import {urlobj} from 'common/apiurls';
+import {serverUrl} from 'common/constants/loginConstants.js'
 
  
 
@@ -51,7 +52,11 @@ constructor(props) {
   }
 
   componentWillMount (){
-      this.props.groupwebactions.getGroups(urlobj.getGroups);
+      let userName = this.props.userName;
+      let password = this.props.password;
+      let url = "http://"+ serverUrl + urlobj.getGroups;
+      console.log("BPN" + url);
+      this.props.groupwebactions.getGroups(url,userName,password);
       console.log('this.props: ');
       console.log(this.props);
   }
@@ -72,7 +77,11 @@ componentWillReceiveProps(nextProps) {
     console.log('in rowPressed');
       this.props.navigator.push ({
         title: 'Streams',
-        component: StreamsView
+        component: StreamsView,
+        passProps: {
+          userName: this.props.userName,
+          password: this.props.password,
+        }
       });
   }
 

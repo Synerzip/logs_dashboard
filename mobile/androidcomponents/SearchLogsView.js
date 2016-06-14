@@ -15,6 +15,7 @@ import {urlobj} from 'common/apiurls';
 import moment from 'moment';
 import { Button, Subheader, COLOR } from 'react-native-material-design';
 import gobutton from '../resources/unnamed.png';
+import {serverUrl} from 'common/constants/loginConstants.js'
 
 
  import React, {
@@ -72,7 +73,12 @@ constructor(props) {
  }
 
  loadDefaultLogs(){
-   this.props.itemactions.getItems(urlobj.getItems,undefined, logEventsConfig,this.successcb);
+      let userName = this.props.userName;
+      let password = this.props.password;      
+      let url = "http://"+ serverUrl + urlobj.getItems;
+
+
+   this.props.itemactions.getItems(url,userName,password,undefined, logEventsConfig,this.successcb);
    this.setState({ loading: true });
  }
  componentDidMount() {
@@ -199,7 +205,10 @@ search(){
           });
          
           filterLogParams.filterPattern = this.state.searchString;
-          this.props.itemactions.getFilteredLogs(urlobj.getFilterLogEvents,undefined, filterLogParams,this.successcb);
+          let userName = this.props.userName;
+          let password = this.props.password;      
+          let url = "http://"+ serverUrl + urlobj.getFilterLogEvents;
+          this.props.itemactions.getFilteredLogs(url,userName,password,undefined, filterLogParams,this.successcb);
           
 }
 
@@ -234,9 +243,11 @@ search(){
             searchString:'',
           });
         filterLogParams.filterPattern=null;
+          let userName = this.props.userName;
+          let password = this.props.password;      
+          let url = "http://"+ serverUrl + urlobj.getLiveLogs;
 
-
-       this.props.itemactions.getLiveLogs(urlobj.getLiveLogs,_getLogEvents,this.successcb);
+       this.props.itemactions.getLiveLogs(url,userName,password,_getLogEvents,this.successcb);
         
      }
 
@@ -324,7 +335,12 @@ search(){
             console.log("Bipin -endTime :", this.state.endTime)
             console.log("Bipin -filterLogParams-searchstring :", filterLogParams.filterPattern);
             console.log("filterLogParams:",filterLogParams);
-            this.props.itemactions.getFilteredLogs(urlobj.getFilterLogEvents,undefined, filterLogParams,this.successcb);
+            
+            let userName = this.props.userName;
+            let password = this.props.password;      
+            let url = "http://"+ serverUrl + urlobj.getFilterLogEvents;
+
+            this.props.itemactions.getFilteredLogs(url,userName,password,undefined, filterLogParams,this.successcb);
         
     }
 
@@ -343,7 +359,10 @@ onNextPressed() {
 
         // dataSource: this.state.dataSource.cloneWithRows([])
       });
-      this.props.itemactions.getItems(urlobj.getItems,'Next', this.state.localLogEventsConfig, this.successcb);
+      let userName = this.props.userName;
+      let password = this.props.password;      
+      let url = "http://"+ serverUrl + urlobj.getItems;           
+      this.props.itemactions.getItems(url,userName,password,'Next', this.state.localLogEventsConfig, this.successcb);
      }
 
 onPrevPressed() {
@@ -357,7 +376,10 @@ onPrevPressed() {
          isPagingNext: true,
          dataSource: this.state.dataSource.cloneWithRows([]),
        });
-       this.props.itemactions.getItems(urlobj.getItems,'Prev', this.state.localLogEventsConfig, this.successcb);
+      let userName = this.props.userName;
+      let password = this.props.password;      
+      let url = "http://"+ serverUrl + urlobj.getItems;           
+      this.props.itemactions.getItems(url,userName,password,'Prev', this.state.localLogEventsConfig, this.successcb);
      }
 
 async showPicker(stateKey, options) {

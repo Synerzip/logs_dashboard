@@ -5,7 +5,7 @@ import {receiveProducts,receiveProductsFail,getAddedCartItem,receiveLogsLive,rec
 import {logEventsConfig} from '../AWSConfig/config.js'
 import Rx from "rxjs";
 
-export function getItems(url,paginationAction,getLogEventsStorObj,successcb){
+export function getItems(url,cred1,cred2,paginationAction,getLogEventsStorObj,successcb){
 
     return function (dispatch) {
 
@@ -15,10 +15,13 @@ export function getItems(url,paginationAction,getLogEventsStorObj,successcb){
         else if(getLogEventsStorObj && paginationAction==="Prev"){
             logEventsConfig.nextToken=getLogEventsStorObj.nextBackwardToken;
         }
+        const base64 = require('base-64');
+        var uspass=""+cred1+":"+cred2;
+        console.log("BPN item service",uspass);
         let config={
             method: 'GET',
             credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Logeventsparam':JSON.stringify(logEventsConfig) }
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Logeventsparam':JSON.stringify(logEventsConfig),"Authorization": "Basic " + base64.encode(uspass)} 
         };
 
         return fetch(url,config)
@@ -39,19 +42,24 @@ export function getItems(url,paginationAction,getLogEventsStorObj,successcb){
 }
 
 
-export function getLiveLogs(url,getLogEventsStorObj,successcb,errorcb){
+export function getLiveLogs(url,cred1,cred2,getLogEventsStorObj,successcb,errorcb){
 
     return function (dispatch) {
 
         if(getLogEventsStorObj ){
             logEventsConfig.nextToken=getLogEventsStorObj.nextForwardToken;
         }
-console.log("logEventsConfig.nextToken",logEventsConfig.nextToken);
+        console.log("logEventsConfig.nextToken",logEventsConfig.nextToken);
+        
+        const base64 = require('base-64');
+        var uspass=""+cred1+":"+cred2;
+        console.log("BPN getLiveLogs",uspass);
+
         var config={
             method: 'GET',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json',
-              'Logeventsparam':JSON.stringify(logEventsConfig) }
+              'Logeventsparam':JSON.stringify(logEventsConfig),"Authorization": "Basic " + base64.encode(uspass)} 
         };
         var service = Rx.Observable.defer(function () {
             return  fetch(url,config) .then(
@@ -66,7 +74,7 @@ console.log("logEventsConfig.nextToken",logEventsConfig.nextToken);
             .concat(fetchInterval)
             .repeat()
             .do(function(item) {
-console.log("config.headers before:",config.headers );
+            console.log("config.headers before:",config.headers );
              //   logEventsConfig.nextToken = item.nextForwardToken;
                 var jobj=JSON.parse(config.headers.Logeventsparam) ;
                 jobj.nextToken=item.nextForwardToken;
@@ -92,16 +100,20 @@ console.log("config.headers before:",config.headers );
     }
 }
 
-export function getFilteredLogs(url,paginationAction,filteredLogObj,successcb){
+export function getFilteredLogs(url,cred1,cred2,paginationAction,filteredLogObj,successcb){
 
     return function (dispatch) {
+
+        const base64 = require('base-64');
+        var uspass=""+cred1+":"+cred2;
+        console.log("BPN getLiveLogs",uspass);
 
 
         let config={
             method: 'GET',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json',
-              'filterLogEventsParams':JSON.stringify(filteredLogObj) }
+              'filterLogEventsParams':JSON.stringify(filteredLogObj) ,"Authorization": "Basic " + base64.encode(uspass)} 
         };
 
         return fetch(url,config)

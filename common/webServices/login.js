@@ -13,16 +13,17 @@ export function login(username,password,successCB){
             method: 'POST',
             body: formData,
             headers: {  'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }
-
         };
         dispatch(loginRequest());
         return fetch('http://localhost:3001/login',config)
                 .then(res=>
             res.json()
+
         )
         .then(resJson=> {
             if(!resJson["success"])
         {
+             console.log("BPN resppnse: ",resJson);
             dispatch(loginFail(resJson.message))
         }
         else{
@@ -39,3 +40,9 @@ export function login(username,password,successCB){
 
 }
 }
+
+
+/*JSON.stringify({
+                username: username,
+                password: password
+            })*/

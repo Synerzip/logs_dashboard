@@ -25,6 +25,8 @@ import * as actionCreators from 'common/actions';
 import * as loginactionCreators from 'common/webServices';
 import synerzipLogo from '../resources/logo.png';
 import backGroundImage from '../resources/nice.png';
+import {serverUrl} from 'common/constants/loginConstants.js'
+const {SERVER_URL}=serverUrl;
 var Dimensions = require('Dimensions');
 var width = Dimensions.get('window').width
 var height = Dimensions.get('window').height
@@ -83,6 +85,10 @@ class LoginView extends Component {
   constructor(props) {
       super(props);
       console.log('in constructor');
+      this.state = {
+      uName: '',
+      pWord: '',
+    };
      }
 
   componentWillReceiveProps(nextProps) {
@@ -96,7 +102,11 @@ class LoginView extends Component {
         pused = true
         this.props.navigator.push ({
           title: 'Groups',
-          component: GroupsComponent
+          component: GroupsComponent,
+          passProps: {
+            userName: this.state.uName,
+            password: this.state.pWord
+          }
         });
       }
     }
@@ -106,7 +116,7 @@ class LoginView extends Component {
       return (
         Alert.alert(
           'Alert Title',
-          'Login failed, please try with valid credentials.',
+          'Login failed, please try with valid credential.',
           [
             {text: 'OK', onPress: () => console.log('OK Pressed!')},
           ]
@@ -116,24 +126,17 @@ class LoginView extends Component {
   }
 
   successCB(resJson){
-    console.log(" in successCB");
+    console.log("In successCB");
     console.log(resJson);
   }
 
   onLogin() {
     console.log('in onLogin');
       pused = false
-      this.props.loginactions.login('username','password', this.successCB);
+      this.props.loginactions.login(this.state.uName,this.state.pWord, this.successCB);
   }
 
-  /*rowPressed() {
-   
-      this.props.navigator.push ({
-        title: 'GroupsComponent',
-        component: GroupsComponent
-      });
-  }*/
- 
+
  render() {
     return (
       <View style={styles.container}>
@@ -144,12 +147,13 @@ class LoginView extends Component {
        
       />
       <TextInput style={styles.textEditInputs}
-        
+      onChangeText={(uName) => this.setState({uName})} 
         
         />
         <TextInput style={styles.textEditInputs}
-            
-          />
+        onChangeText={(pWord) => this.setState({pWord})} 
+        secureTextEntry={true}           
+        />
         <TouchableHighlight style={styles.button}
         underlayColor='#F5FCFF'
         onPress={this.onLogin.bind(this)}>
